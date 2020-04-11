@@ -25,17 +25,111 @@ public class ServerGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSplitPane2 = new javax.swing.JSplitPane();
+        jPanel1 = new javax.swing.JPanel();
+        portLabel = new javax.swing.JLabel();
+        txtFieldPort = new javax.swing.JTextField();
+        ipLabel = new javax.swing.JLabel();
+        txtFieldIP = new javax.swing.JTextField();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        clientListScrollPanel = new javax.swing.JScrollPane();
+        txtAreaClientList = new javax.swing.JTextArea();
+        clientListLabel = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(500, 275));
+        setMinimumSize(new java.awt.Dimension(500, 275));
+        setResizable(false);
+
+        jSplitPane2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        portLabel.setLabelFor(txtFieldPort);
+        portLabel.setText("Port:");
+        portLabel.setToolTipText("");
+
+        txtFieldPort.setMaximumSize(new java.awt.Dimension(110, 25));
+        txtFieldPort.setMinimumSize(new java.awt.Dimension(110, 25));
+        txtFieldPort.setPreferredSize(new java.awt.Dimension(110, 25));
+
+        ipLabel.setLabelFor(txtFieldIP);
+        ipLabel.setText("IP address:");
+
+        txtFieldIP.setMaximumSize(new java.awt.Dimension(110, 25));
+        txtFieldIP.setMinimumSize(new java.awt.Dimension(110, 25));
+        txtFieldIP.setPreferredSize(new java.awt.Dimension(110, 25));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ipLabel)
+                .addGap(0, 0, 0)
+                .addComponent(txtFieldIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(portLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtFieldPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ipLabel)
+                    .addComponent(txtFieldIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFieldPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(portLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(29, 29, 29))
+        );
+
+        jSplitPane2.setLeftComponent(jPanel1);
+
+        jSplitPane1.setDividerLocation(35);
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        jButton1.setText("Start Server");
+        jSplitPane1.setTopComponent(jButton1);
+
+        jButton2.setText("Close Server");
+        jSplitPane1.setRightComponent(jButton2);
+
+        jSplitPane2.setRightComponent(jSplitPane1);
+
+        txtAreaClientList.setColumns(20);
+        txtAreaClientList.setRows(5);
+        clientListScrollPanel.setViewportView(txtAreaClientList);
+
+        clientListLabel.setLabelFor(txtAreaClientList);
+        clientListLabel.setText("Client List:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(clientListLabel)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(clientListScrollPanel)
+                        .addComponent(jSplitPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSplitPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(clientListLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(clientListScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -77,5 +171,17 @@ public class ServerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel clientListLabel;
+    private javax.swing.JScrollPane clientListScrollPanel;
+    private javax.swing.JLabel ipLabel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JLabel portLabel;
+    private javax.swing.JTextArea txtAreaClientList;
+    private javax.swing.JTextField txtFieldIP;
+    private javax.swing.JTextField txtFieldPort;
     // End of variables declaration//GEN-END:variables
 }
