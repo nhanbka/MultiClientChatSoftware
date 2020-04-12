@@ -151,7 +151,7 @@ public class ChatPanel extends javax.swing.JPanel implements Runnable {
                     }
                 }
             } catch(Exception e){
-                e.printStackTrace();
+                txtAreaReceiveMess.append("\nServer is closed!");
             }
         }
     }

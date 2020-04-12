@@ -5,17 +5,35 @@
  */
 package multiclientchat;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.BindException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author ADMIN
+ * @author nhanbka99
  */
 public class ServerGUI extends javax.swing.JFrame {
-
+    
+    ServerSocket socket;
+    
     /**
      * Creates new form ServerGUI
      */
     public ServerGUI() {
         initComponents();
+        try{
+            txtFieldIP.setText(InetAddress.getLocalHost().getHostAddress());
+        } catch(UnknownHostException u){
+            u.printStackTrace();
+        }
     }
 
     /**
@@ -25,15 +43,15 @@ public class ServerGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSplitPane2 = new javax.swing.JSplitPane();
-        jPanel1 = new javax.swing.JPanel();
+        controlPanel = new javax.swing.JSplitPane();
+        serverInfoPanel = new javax.swing.JPanel();
         portLabel = new javax.swing.JLabel();
         txtFieldPort = new javax.swing.JTextField();
         ipLabel = new javax.swing.JLabel();
         txtFieldIP = new javax.swing.JTextField();
-        jSplitPane1 = new javax.swing.JSplitPane();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        serverStatePanel = new javax.swing.JSplitPane();
+        btnConnect = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
         clientListScrollPanel = new javax.swing.JScrollPane();
         txtAreaClientList = new javax.swing.JTextArea();
         clientListLabel = new javax.swing.JLabel();
@@ -43,7 +61,7 @@ public class ServerGUI extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(500, 275));
         setResizable(false);
 
-        jSplitPane2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        controlPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         portLabel.setLabelFor(txtFieldPort);
         portLabel.setText("Port:");
@@ -56,15 +74,17 @@ public class ServerGUI extends javax.swing.JFrame {
         ipLabel.setLabelFor(txtFieldIP);
         ipLabel.setText("IP address:");
 
+        txtFieldIP.setEditable(false);
+        txtFieldIP.setEnabled(false);
         txtFieldIP.setMaximumSize(new java.awt.Dimension(110, 25));
         txtFieldIP.setMinimumSize(new java.awt.Dimension(110, 25));
         txtFieldIP.setPreferredSize(new java.awt.Dimension(110, 25));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout serverInfoPanelLayout = new javax.swing.GroupLayout(serverInfoPanel);
+        serverInfoPanel.setLayout(serverInfoPanelLayout);
+        serverInfoPanelLayout.setHorizontalGroup(
+            serverInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(serverInfoPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ipLabel)
                 .addGap(0, 0, 0)
@@ -75,30 +95,31 @@ public class ServerGUI extends javax.swing.JFrame {
                 .addComponent(txtFieldPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        serverInfoPanelLayout.setVerticalGroup(
+            serverInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(serverInfoPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ipLabel)
-                    .addComponent(txtFieldIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFieldPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(portLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(serverInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(portLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(serverInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ipLabel)
+                        .addComponent(txtFieldIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtFieldPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(29, 29, 29))
         );
 
-        jSplitPane2.setLeftComponent(jPanel1);
+        controlPanel.setLeftComponent(serverInfoPanel);
 
-        jSplitPane1.setDividerLocation(35);
-        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        serverStatePanel.setDividerLocation(35);
+        serverStatePanel.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-        jButton1.setText("Start Server");
-        jSplitPane1.setTopComponent(jButton1);
+        btnConnect.setText("Start Server");
+        serverStatePanel.setTopComponent(btnConnect);
 
-        jButton2.setText("Close Server");
-        jSplitPane1.setRightComponent(jButton2);
+        btnClose.setText("Close Server");
+        serverStatePanel.setRightComponent(btnClose);
 
-        jSplitPane2.setRightComponent(jSplitPane1);
+        controlPanel.setRightComponent(serverStatePanel);
 
         txtAreaClientList.setColumns(20);
         txtAreaClientList.setRows(5);
@@ -117,14 +138,14 @@ public class ServerGUI extends javax.swing.JFrame {
                     .addComponent(clientListLabel)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(clientListScrollPanel)
-                        .addComponent(jSplitPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(clientListLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -171,17 +192,53 @@ public class ServerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnConnect;
     private javax.swing.JLabel clientListLabel;
     private javax.swing.JScrollPane clientListScrollPanel;
+    private javax.swing.JSplitPane controlPanel;
     private javax.swing.JLabel ipLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JLabel portLabel;
+    private javax.swing.JPanel serverInfoPanel;
+    private javax.swing.JSplitPane serverStatePanel;
     private javax.swing.JTextArea txtAreaClientList;
     private javax.swing.JTextField txtFieldIP;
     private javax.swing.JTextField txtFieldPort;
     // End of variables declaration//GEN-END:variables
+
+    private class ButtonConnectAction implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int port = 18999;           // default port
+            try {
+                port = Integer.parseInt(txtFieldPort.getText());
+            } catch(Exception exception){
+                exception.printStackTrace();
+            }
+            try {
+                socket = new ServerSocket(port);
+                JOptionPane.showMessageDialog(txtAreaClientList, "Server is running at port: " + port, "Started server",
+			                JOptionPane.INFORMATION_MESSAGE);
+            } catch(BindException b){
+                JOptionPane.showMessageDialog(txtAreaClientList, "Port has been used");
+            } catch (IOException ex) {
+                Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            // Start Server
+            Thread t = new Thread(thisServer);
+            t.start();
+        }
+        
+    }
+    
+    private static class thisServer implements Runnable {
+
+        @Override
+        public void run() {
+            
+        }
+        
+    }
 }
